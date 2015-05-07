@@ -9,4 +9,11 @@ hash = {"a"=>111, "b"=>222}
 puts hash.map {|k,v| "atslegas #{k} vertiba ir #{v}"}
 
 fruits = ["banana", "apple", "orange", "pear"]
+fruits2 = ["banana", "apple", "orange", "pear"]
+puts fruits
 puts fruits.map {|a| a.reverse}.sort_by {|a| a.length}.reverse
+puts fruits
+puts "--------------"
+puts fruits2
+puts fruits2.map! {|a| a.reverse}.sort_by {|a| a.length}.reverse
+puts fruits2
