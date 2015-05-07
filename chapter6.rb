@@ -5,6 +5,6 @@ class Product
 	end
 end
 
-produkts = Product.new
+#produkts = Product.new
 
-puts atlaide = produkts.atlaide(90, 20)
+puts atlaide = Product.new.atlaide(90, 20)
