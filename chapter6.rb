@@ -1,12 +1,10 @@
 class Product
-	def atlaide(a=45, b=10)
-		c = a - ((a*b)/100)
-		return c
+	def atlaide(a=nil, b=10)
+		@c = a - ((a*b)/100)
+		return @c.to_f
 	end
 end
 
 produkts = Product.new
 
-atlaide = produkts.atlaide
-
-puts atlaide
+puts atlaide = produkts.atlaide(90, 20)
