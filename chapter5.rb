@@ -1,9 +1,11 @@
 def welcome
-	puts "hello pasaule!"
+	print "hello pasaule!"
 end
 
-def longest_word
-	word = ["banana", "apple", "orange", "pear"]
+@word = ["banana", "appleeeeeee", "orange", "pear"]
+
+def longest_word(word)
+	
 	longest_word = word.inject do |memo, word|
 		memo.length > word.length ? memo : word
 	end
@@ -14,3 +16,6 @@ def over_five?
 	value = 3
 	puts value > 5 ? 'ir' : 'nav'
 end
+
+longest_word(@word)
+longest_word(@word.map {|a| a.reverse})
