@@ -1,17 +1,4 @@
-module ContactInfo
-	attr_accessor :first_name, :last_name, :city, :state, :zip_code
-
-	def full_name
-		return @first_name + " " + @last_name
-	end
-
-	def city_state_zip
-		csz = @city
-		csz += ", #{state}" if @state
-		csz += ", #{zip_code}" if @zip_code
-		return csz
-	end
-end
+require 'chapter7_contact_info.rb'
 
 class Person
 	include ContactInfo
@@ -21,8 +8,8 @@ class Teacher
 	include ContactInfo
 end
 
-class Student
-	include ContactInfo
+class Student < Person
+	#include ContactInfo
 end
 
 person = Person.new
@@ -37,4 +24,7 @@ teacher.last_name = "Robo"
 
 puts person.first_name
 puts student.last_name
+
+puts teacher.full_name
+puts "------------------"
 puts teacher.first_name + " " + teacher.last_name
