@@ -25,6 +25,12 @@ class Animal
 		@@current_animals
 	end
 
+	def self.create_with_attributes(noise, color)
+		animal = self.new(noise)
+		animal.color = color
+		return animal
+	end	
+
 	def self.current_animals=(animals)
 		@@current_animals = animals
 	end
@@ -40,8 +46,18 @@ class Animal
 		"The color is #{@color}"
 	end
 
+	def color=(color="red")
+		@color = color
+	end
+
 	def legs=(kaaju_skaits)
 		@legs ="Kāju skaits ir: #{kaaju_skaits}"
+	end
+end
+
+class Cow < Animal
+	def color
+		"The cow color is #{@color}"
 	end
 end
 
@@ -49,9 +65,9 @@ end
 
 #puts atlaide = Product.new.atlaide(90, 20)
 
-Animal.species << ["duck", "monkey"]
+#Animal.species << ["duck", "monkey"]
 
-puts Animal.species
+#puts Animal.species
 
 # animal1 = Animal.new("Buuu", 4)
 # animal1.name = "\nvaardins"
@@ -62,4 +78,7 @@ puts Animal.species
 # puts animal1.legs
 # puts animal1.arms
 
-puts Animal.current_animals
+#puts Animal.current_animals
+
+moisie = Cow.create_with_attributes("muuuu", "red")
+puts moisie.color
