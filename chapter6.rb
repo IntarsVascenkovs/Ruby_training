@@ -10,14 +10,30 @@ class Animal
 	attr_writer :color
 	attr_reader :legs, :arms
 
-	def self.all_species
-		['cat', 'dog', 'pig', 'horse']
+	@@species = ['cat', 'dog', 'pig', 'horse']
+	@@current_animals = []
+
+	def self.species
+		@@species
+	end
+
+	def self.species=(array=[])
+		@@species = array
+	end
+
+	def self.current_animals
+		@@current_animals
+	end
+
+	def self.current_animals=(animals)
+		@@current_animals = animals
 	end
 
 	def initialize(noise, legs=5, arms=3.2)
 		@noise = noise
 		@legs = legs
 		@arms = arms
+		@@current_animals << self
 	end
 
 	def color
@@ -33,13 +49,17 @@ end
 
 #puts atlaide = Product.new.atlaide(90, 20)
 
-puts Animal.all_species
+Animal.species << ["duck", "monkey"]
 
-animal1 = Animal.new("Buuu", 4)
-animal1.name = "\nvaardins"
-animal1.color = "blue"
+puts Animal.species
 
-puts animal1.name
-puts animal1.color
-puts animal1.legs
-puts animal1.arms
+# animal1 = Animal.new("Buuu", 4)
+# animal1.name = "\nvaardins"
+# animal1.color = "blue"
+
+# puts animal1.name
+# puts animal1.color
+# puts animal1.legs
+# puts animal1.arms
+
+puts Animal.current_animals
