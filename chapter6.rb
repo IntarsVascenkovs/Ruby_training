@@ -7,6 +7,7 @@ end
 
 class Animal
 	attr_accessor :name
+	attr_accessor :noise
 	attr_writer :color
 	attr_reader :legs, :arms
 
@@ -61,6 +62,14 @@ class Cow < Animal
 	end
 end
 
+class Pig < Animal
+	def noise
+		parent_noise = super
+		@this_noise = "ruk-ruk"
+		return "#{@this_noise} and also #{parent_noise}"
+	end
+end
+
 #produkts = Product.new
 
 #puts atlaide = Product.new.atlaide(90, 20)
@@ -80,5 +89,8 @@ end
 
 #puts Animal.current_animals
 
-moisie = Cow.create_with_attributes("muuuu", "red")
-puts moisie.color
+# moisie = Cow.create_with_attributes("muuuu", "red")
+# puts moisie.color
+
+wilbur = Pig.new("Oink!")
+puts wilbur.noise
