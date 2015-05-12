@@ -16,4 +16,4 @@ end
 list = ToDoList.new
 list.items = ['laundry', 'dishes', 'vacuum']
 
-puts list.items
+puts list.select {|i| i.length > 6}
