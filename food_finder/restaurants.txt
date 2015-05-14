@@ -2,3 +2,4 @@ Hot Tamale	Mexican	25
 Test	Mexico	20
 Test2	latvian	10
 Test3	none	10
+Krogs	local	3
