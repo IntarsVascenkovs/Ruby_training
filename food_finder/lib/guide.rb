@@ -1,4 +1,5 @@
 require 'restaurant'
+require 'support/string_extend'
 
 class Guide
 	class Config
@@ -25,8 +26,8 @@ class Guide
 		result = nil
 
 		until result == :quit
-			action = get_action
-			result = do_action(action)
+			action, args = get_action
+			result = do_action(action, args)
 		end
 
 		conclusion
@@ -37,18 +38,19 @@ class Guide
 		until Guide::Config.actions.include?(action)
 			puts "Actions: " + Guide::Config.actions.join(", ") if action
 			print "> "
-			#user_response = gets.chomp
-			action = gets.chomp.downcase.strip
+			args = gets.chomp.downcase.strip.split(' ')
+			action = args.shift
 		end
-		return action
+		return action, args
 	end
 
-	def do_action(action)
+	def do_action(action, args=[])
 		case action
 		when 'list'
-			list
+			list(args)
 		when 'find'
-			puts 'finding'
+			keyword = args.shift
+			find(keyword)
 		when 'add'
 			add
 		when 'quit'
@@ -58,17 +60,50 @@ class Guide
 		end
 	end
 
-	def list
-		puts "\nListing restaurant\n\n".upcase
+	def list(args="")
+		sort_order = args.shift
+		sort_order = args.shift if sort_order == "by"
+		sort_order = "name" unless ['name', 'cuisine', 'price'].include?(sort_order)
+
+		output_action_header("Listing restaurant")
+
 		restaurants = Restaurant.saved_restaurants
-		restaurants.each do |rest|
-			puts rest.name + "\t | \t" + rest.cuisine + "\t | \t" + rest.price
+		restaurants.sort! do |r1, r2|
+			case sort_order
+			when 'name'
+				r1.name.downcase <=> r2.name.downcase
+			when 'cuisine'
+				r1.cuisine.downcase <=> r2.cuisine.downcase
+			when 'price'
+				r1.price.to_i <=> r2.price.to_i
+			end
+		end
+
+		output_restaurant_table(restaurants)
+
+		puts "Sort using: 'list cuisine'\n\n"
+	end
+
+	def find(keyword="")
+		output_action_header("Find a restaurant")
+
+		if keyword
+			restaurants = Restaurant.saved_restaurants
+			found = restaurants.select do |rest|
+				rest.name.downcase.include?(keyword.downcase) ||
+				rest.cuisine.downcase.include?(keyword.downcase) ||
+				rest.price.to_i <= keyword.to_i
+			end
+			output_restaurant_table(found)
+		else
+			puts "Find using a key phrase to search the restaurant list."
+			puts "Example: 'find tamale', 'find Mexican'\n\n"
 		end
 	end
 
 	def add
-		puts "\nAdd new restaurant\n\n".upcase
-		
+		output_action_header("Add new restaurant")
+
 		restaurant = Restaurant.build_using_questions
 
 		if restaurant.save
@@ -84,5 +119,28 @@ class Guide
 
 	def conclusion
 		puts "\n<<< Bon Apetit >>>\n\n\n"
+	end
+
+	private
+
+	def output_action_header(text)
+		puts "\n#{text.upcase.center(60)}\n\n"
+	end
+
+	def output_restaurant_table(restaurants=[])
+		print " " + "Name".ljust(30)
+		print " " + "Cuisine".ljust(20)
+		print " " + "Price".rjust(6) + "\n"
+		puts "-" * 60
+
+		restaurants.each do |rest|
+			line = " " << rest.name.titleize.ljust(30)
+			line << " " + rest.cuisine.titleize.ljust(20)
+			line << " " + rest.formatted_price.rjust(6)
+			puts line
+		end
+
+		puts "No listings found" if restaurants.empty?
+		puts "-" * 60
 	end
 end

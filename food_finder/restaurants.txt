@@ -3,3 +3,4 @@ Test	Mexico	20
 Test2	latvian	10
 Test3	none	10
 Krogs	local	3
+pita pocket	fast food	10
