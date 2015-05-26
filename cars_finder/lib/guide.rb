@@ -1,4 +1,5 @@
 require 'cars'
+require 'support/string_extend'
 
 class Guide
 	class Config
@@ -12,14 +13,6 @@ class Guide
 		#puts Config.actions
 	end
 
-	def list(args="")
-		output_action_header("My cars")
-	end
-
-	def output_action_header(text)
-		puts "#\n{text.upcase.center(60)\n\n}"
-	end
-
 	def launch!
 		result = nil
 		until result == :quit
@@ -30,7 +23,8 @@ class Guide
 
 	def get_action
 		action = nil
-		args = gets.chomp
+		print '> '
+		args = gets.chomp.downcase.strip.split(' ')
 		action = args.shift
 		return action, args
 	end
@@ -44,5 +38,39 @@ class Guide
 		else
 			puts "Wrong command\nUse only #{Config.actions}"
 		end
+	end
+
+	def list(args="")
+		output_action_header("My cars")
+		
+		cars = Cars.saved_cars
+		output_cars_table(cars)
+
+		output_action_footer("Result for list")
+	end
+
+	def output_action_header(text)
+		puts "\n#{text.upcase.center(60)}\n\n"
+	end
+
+	def output_cars_table(cars=[])
+		print " " + "Name".ljust(30)
+		print " " + "Type".ljust(20)
+		print " " + "Price".rjust(6) + "\n"
+		puts "-" * 60
+
+		cars.each do |car|
+			line = " " << car.name.titleize.ljust(30)
+			line << " " + car.type.titleize.ljust(20)
+			line << " " + car.formatted_price.rjust(6)
+			puts line
+		end
+
+		puts "No listings found" if cars.empty?
+		puts "-" * 60
+	end
+
+	def output_action_footer(text)
+		puts "\n#{text.center(60)}\n\n"
 	end
 end
