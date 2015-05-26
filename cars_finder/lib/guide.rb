@@ -10,7 +10,16 @@ class Guide
 	end
 
 	def initialize(path=nil)
-		#puts Config.actions
+		Cars.filepath = path
+		if Cars.file_usable?
+			puts "Found cars file!"
+		elsif 
+			Cars.create_file
+			puts "Created cars file"
+		else
+			puts "Exiting.\n\n"
+			exit!
+		end
 	end
 
 	def launch!
