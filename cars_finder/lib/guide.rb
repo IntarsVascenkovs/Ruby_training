@@ -42,6 +42,8 @@ class Guide
 		case action
 		when 'list'
 			list(args)
+		when 'add'
+			add
 		when 'quit'
 			return :quit
 		else
@@ -58,6 +60,18 @@ class Guide
 		output_action_footer("Result for list")
 	end
 
+	def add
+		output_action_header("Added new restaurant")
+
+		cars = Cars.build_using_questions
+
+		if cars.save
+			puts "\nCar added\n\n"
+		else
+			puts "\nSave error: Car not added!\n\n"
+		end
+	end
+
 	def output_action_header(text)
 		puts "\n#{text.upcase.center(60)}\n\n"
 	end
@@ -71,7 +85,8 @@ class Guide
 		cars.each do |car|
 			line = " " << car.name.titleize.ljust(30)
 			line << " " + car.type.titleize.ljust(20)
-			line << " " + car.formatted_price.rjust(6)
+			#line << " " + car.formatted_price.rjust(6)
+			line << " " + car.price.rjust(6)
 			puts line
 		end
 
